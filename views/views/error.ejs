@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- head %>
+  </head>
+  <body class="min-h-screen">
+    
+<header class="text-gray-600 body-font">
+  <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+    <a href="<%- base %>" class="flex title-font font-medium items-center text-gray-900 md:mb-0">
+      <img src="<%- base %>/api/logo" class="w-10 h-10 text-white bg-indigo-500 rounded-full">
+      <span class="ml-3 text-xl text-[khaki]"><%- global.config.web.title %></span>
+    </a>
+    <nav class="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400	flex flex-wrap items-center text-base justify-center">
+      <a href="<%- base %>/votes" class="mr-5 hover:text-blue-500">En Çok Oy Alanlar</a>
+      <a href="<%- base %>/players" class="mr-5 hover:text-blue-500">En Çok Oynanan</a>
+      <a href="<%- base %>/invite" class="mr-5 hover:text-blue-500">Davet</a>
+      <% if(user) { %>
+        <a href="<%- base %>/myservers" class="mr-5 hover:text-blue-500">Sunucularım</a>
+      <% } %>
+    </nav>
+      <img src="https://cdn.discordapp.com/avatars/542255512591532032/47f3572413facd94f24a6d12727f3c2d.png" class="w-10 h-10 rounded-full">
+  </div>
+</header>
+  
+
+<section class="relative py-16 ">
+  <div class="mx-auto items-center mb-12">
+<link
+	href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+	rel="stylesheet">
+<div class="bg-gray-900">
+  
+  <div style="display:table;margin:0 auto 0 auto;" class="mb-6">
+    <center>
+      <h2 style="color: #ad91ff;font-size: 50px;font-weight: 500;"><%- error %></h2>
+      <h2 style="color:rgba(255,255,255,.685);font-size: 30px;font-weight: 500;"><%- message %></h2>
+      <h3 style="color:khaki;cursor:pointer; font-size: 20px;padding-top: 10px;"><a onclick="history.back()">Back Page</a></h3>
+    </center>
+      
+      
+
+</div>
+<style>
+	.table {
+		border-spacing: 0 15px;
+	}
+
+	i {
+		font-size: 1rem !important;
+	}
+
+	.table tr {
+		border-radius: 20px;
+	}
+
+	tr td:nth-child(n+5),
+	tr th:nth-child(n+5) {
+		border-radius: 0 .625rem .625rem 0;
+	}
+
+	tr td:nth-child(1),
+	tr th:nth-child(1) {
+		border-radius: .625rem 0 0 .625rem;
+	}
+</style>
+  </div>
+</section>
+  
+<%- pages.footer %>
+  
+  <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+  <%- realfooter %>
+  </body>
+</html>

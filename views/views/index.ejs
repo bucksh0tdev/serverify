@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- head %>
+  </head>
+  <body class="min-h-screen">
+    
+<header class="text-gray-600 body-font">
+  <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+    <a href="<%- base %>" class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+      <img src="<%- base %>/api/logo" class="w-10 h-10 text-white bg-indigo-500 rounded-full">
+      <span class="ml-3 text-xl text-[khaki]"><%- global.config.web.title %></span>
+    </a>
+    <nav class="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400	flex flex-wrap items-center text-base justify-center">
+      <a href="<%- base %>/votes" class="mr-5 hover:text-blue-500">En Çok Oy Alanlar</a>
+      <a href="<%- base %>/players" class="mr-5 hover:text-blue-500">En Çok Oynanan</a>
+      <a href="<%- base %>/invite" class="mr-5 hover:text-blue-500">Davet</a>
+      <a href="https://getserver.owhost.cloud" class="mr-5 hover:text-blue-500">Get Free Server</a>
+      <% if(user) { %>
+        <a href="<%- base %>/myservers" class="mr-5 hover:text-blue-500">Sunucularım</a>
+      <% } %>
+    </nav>
+      <% if(!user) { %>
+        <a href="<%- base %>/login" class="inline-flex items-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Discord Giriş
+          <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
+            <path d="M5 12h14M12 5l7 7-7 7"></path>
+          </svg>
+        </a>
+      <% } else { %>
+        <a href="<%- base %>/request" class="inline-flex items-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Başvuru Yap
+          <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
+            <path d="M5 12h14M12 5l7 7-7 7"></path>
+          </svg>
+        </a>
+      <% } %>
+  </div>
+</header>
+        
+<section class="relative py-16 ">
+  <div class="mx-auto items-center mb-12">
+<link
+	href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+	rel="stylesheet">
+<div style="width: 70%;margin-left:15%" class="items-center justify-center bg-gray-900">
+	<div class="col-span-12">
+		<div class="overflow-auto lg:overflow-visible ">
+			<table class="w-full table text-gray-400 border-separate space-y-6 text-sm">
+				<thead class="bg-gray-800 text-gray-500">
+					<tr>
+						<th class="p-3">Sunucu İsmi</th>
+						<th class="p-3 text-left">IP</th>
+						<th class="p-3 text-left">Açıklama</th>
+						<th class="p-3 text-left">Oyuncu</th>
+						<th class="p-3 text-left">Oy</th>
+					</tr>
+				</thead>
+				<tbody>
+          <% for (var i = 0; i < servers.length; i++) { %>
+					<tr id="<%- servers[i].id %>" class="bg-gray-800">
+						<td class="p-3">
+							<div class="flex align-items-center">
+									<div class=""><%- servers[i].name %></div>
+							</div>
+						</td>
+						<td class="p-3">
+							<%- servers[i].ip %>:<%- servers[i].port %>
+						</td>
+						<td class="p-3">
+							<% if(servers[i].desc.length < 30) { %>
+                <%- servers[i].desc.slice(0, 30) %>..
+              <% } else { %>
+                <%- servers[i].desc.slice(0, 30) %>
+              <% } %>
+						</td>
+						<td class="p-3 font-bold">
+							<%- servers[i].players %>/<%- servers[i].maxplayers %>
+						</td>
+						<td class="p-3">
+							<span style="cursor: pointer;display: flex;" onclick="window.location.href = '<%- base %>/vote/<%- servers[i].id %>/1'"><%- servers[i].likes %>
+              <svg style="margin-left: 5px;" fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 text-indigo-500" viewBox="0 0 24 24">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+            </svg></span>
+						</td>
+					</tr>
+          <% } %>
+          <% if(servers.length == 0) { %>
+            <h2 style="color: #6FEDD6;">Hiç Sunucu Yok!</h2>
+          <% } %>
+          <!--
+          <tr class="bg-gray-800">
+						<td class="p-3">
+							<div class="flex align-items-center">
+									<div class="">Prime Freeroam</div>
+							</div>
+						</td>
+						<td class="p-3">
+							149.28.237.162:22003
+						</td>
+						<td class="p-3">
+							<span class="bg-red-400 text-gray-50 rounded-md px-2" style="white-space: nowrap;">Aktif Değil</span>
+						</td>
+						<td class="p-3">
+							<span style="display: flex;">10 <svg style="margin-left: 5px;" fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 text-indigo-500" viewBox="0 0 24 24">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+            </svg></span>
+						</td>
+					</tr>
+          -->
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<style>
+	.table {
+		border-spacing: 0 15px;
+	}
+
+	i {
+		font-size: 1rem !important;
+	}
+
+	.table tr {
+		border-radius: 20px;
+	}
+
+	tr td:nth-child(n+5),
+	tr th:nth-child(n+5) {
+		border-radius: 0 .625rem .625rem 0;
+	}
+
+	tr td:nth-child(1),
+	tr th:nth-child(1) {
+		border-radius: .625rem 0 0 .625rem;
+	}
+</style>
+  </div>
+</section>
+  
+<%- pages.footer %>
+  
+  <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+  <%- realfooter %>
+  </body>
+</html>
