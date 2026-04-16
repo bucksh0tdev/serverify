@@ -1,39 +1,39 @@
 # Serverify v1
 
-Serverify v1, MTA:SA sunucularını listelemek, oylatmak ve Discord üzerinden doğrulamak için hazırlanmış bir Node.js projesidir. Uygulama iki parçadan oluşur:
+Serverify v1 is a Node.js project built to list MTA:SA servers, collect votes, and verify submissions through Discord. The application has two parts:
 
-- Discord botu
-- Express tabanlı web paneli
+- Discord bot
+- Express-based web panel
 
-Kullanıcılar Discord ile giriş yaparak kendi sunucularını panele başvuru olarak ekler. Başvurular, belirlenen Discord sunucusundaki onay kanalına düşer. Yetkililer başvuruyu kabul ettiğinde sunucu listede görünür, reddedildiğinde kayıt kaldırılır.
+Users sign in with Discord and submit their own servers from the panel. Submissions are sent to an approval channel in a specified Discord server. When a moderator approves a submission, the server appears in the list; when rejected, the record is removed.
 
-## Öne Çıkan Özellikler
+## Key Features
 
-- Discord OAuth2 ile giriş sistemi
-- Discord sunucu sahipliğine göre başvuru oluşturma
-- Butonlu başvuru onay ve red akışı
-- En yeni sunucular listesi
-- En çok oynanan sunucular sayfası
-- En çok oy alan sunucular sayfası
-- Kullanıcının kendi eklediği sunucuları görmesi
-- JSON çıktı veren basit API
-- Dinamik logo boyutlandırma servisi
-- `sitemap.xml`, `robots.txt` ve servis çalışanı (`sw.js`) üretimi
-- MTA:SA resmi API verisini periyodik olarak önbelleğe alma
-- Oyların belirli aralıkla sıfırlanması
+- Sign-in system with Discord OAuth2
+- Server submission flow based on Discord server ownership
+- Button-based approve/reject workflow for submissions
+- Newest servers page
+- Most played servers page
+- Most voted servers page
+- User dashboard for servers added by the current user
+- Simple JSON API output
+- Dynamic logo resizing service
+- Generation of `sitemap.xml`, `robots.txt`, and service worker (`sw.js`)
+- Periodic caching of data from the official MTA:SA API
+- Vote reset at configurable intervals
 
-## Nasıl Çalışır?
+## How It Works
 
-Sistemin temel akışı şöyledir:
+The core flow is:
 
-1. Kullanıcı Discord hesabı ile giriş yapar.
-2. Sahibi olduğu Discord sunucularından birini seçerek başvuru gönderir.
-3. Girilen IP ve port bilgisi, MTA:SA API verisi ile doğrulanır.
-4. Başvuru, onay için Discord kanalına butonlu mesaj olarak iletilir.
-5. Yetkili kabul ederse sunucu aktif listeye alınır.
-6. Ziyaretçiler listedeki sunuculara oy verebilir.
+1. The user signs in with a Discord account.
+2. The user selects one of the Discord servers they own and submits an application.
+3. The submitted IP and port are validated against MTA:SA API data.
+4. The submission is posted to a Discord approval channel as a message with buttons.
+5. If a moderator accepts it, the server is added to the active list.
+6. Visitors can vote for servers in the list.
 
-## Teknolojiler
+## Technologies
 
 - Node.js 16.x
 - Express
@@ -45,56 +45,56 @@ Sistemin temel akışı şöyledir:
 - Sharp
 - Axios
 
-## Proje Yapısı
+## Project Structure
 
 ```text
 serverify-v1/
-├── config.js                # Temel yapılandırma
-├── index.js                 # Uygulama başlangıç noktası
+├── config.js                # Base configuration
+├── index.js                 # Application entry point
 ├── discord/
-│   └── index.js             # Discord botu ve web sunucusu başlatma
+│   └── index.js             # Discord bot and web server bootstrap
 ├── functions/
-│   └── global.js            # Genel yardımcı fonksiyonlar ve veri erişimi
+│   └── global.js            # Shared helper functions and data access
 ├── views/
-│   ├── index.js             # Express görünüm kurulumu
+│   ├── index.js             # Express view setup
 │   ├── libs/
-│   │   ├── global.js        # Panel yardımcıları, session ve passport ayarları
-│   │   └── subs/main.js     # Tüm route tanımları
-│   ├── styles/              # Tailwind kaynakları ve statik dosyalar
-│   └── views/               # EJS sayfa şablonları
-└── databases/               # Yerel veri dosyaları
+│   │   ├── global.js        # Panel helpers, session and passport config
+│   │   └── subs/main.js     # All route definitions
+│   ├── styles/              # Tailwind sources and static assets
+│   └── views/               # EJS page templates
+└── databases/               # Local data files
 ```
 
-## Gereksinimler
+## Requirements
 
-Projeyi çalıştırmadan önce aşağıdakilerin hazır olması gerekir:
+Before running the project, make sure you have:
 
 - Node.js `16.x`
 - npm
-- Oluşturulmuş bir Discord uygulaması ve botu
-- Discord OAuth2 bilgileri
-- Botun bulunduğu bir yönetim sunucusu
-- Başvuru mesajlarının düşeceği bir kanal
-- Web panelinin erişeceği bir alan adı veya IP
+- A created Discord application and bot
+- Discord OAuth2 credentials
+- A management Discord server where the bot is present
+- A channel for incoming submission messages
+- A domain or IP address for the web panel
 
-## Kurulum
+## Installation
 
-### 1. Depoyu indir
+### 1. Clone the repository
 
 ```bash
 git clone <repo-url>
 cd serverify-v1
 ```
 
-### 2. Bağımlılıkları yükle
+### 2. Install dependencies
 
 ```bash
 npm install
 ```
 
-### 3. Yapılandırmayı düzenle
+### 3. Update configuration
 
-`config.js` dosyasını kendi ortamınıza göre doldurun.
+Fill `config.js` according to your environment.
 
 ```js
 module.exports = {
@@ -104,8 +104,8 @@ module.exports = {
   web: {
     title: "Serverify",
     url: "http://IP:3000",
-    description: "Mta-Sa Sunucu Bul/Paylaş!",
-    keywords: ["mta-sa", "mta-sa sunucu", "mta-sa api"],
+    description: "Mta-Sa Server Find/Share!",
+    keywords: ["mta-sa", "mta-sa server", "mta-sa api"],
     port: 3000
   },
   bot: {
@@ -116,127 +116,127 @@ module.exports = {
     callback: "http://IP:3000/callback",
     scopes: ["identify", "guilds"],
     invite: "https://discord.com/oauth2/authorize?scope=bot+applications.commands&client_id=BOT-ID&permissions=8",
-    server: "BOT APPROVE SERVER",
-    channel: "BOT APPROVE CHANNEL",
+    server: "BOT APPROVAL SERVER",
+    channel: "BOT APPROVAL CHANNEL",
     ready: "https://instagram.com/bucksh0tdev"
   }
 }
 ```
 
-### 4. Uygulamayı başlat
+### 4. Start the application
 
 ```bash
 npm start
 ```
 
-Uygulama varsayılan olarak `config.js` içindeki `web.port` değeri üzerinden ayağa kalkar.
+By default, the application runs on the `web.port` value in `config.js`.
 
-## Tailwind Derleme
+## Tailwind Build
 
-Stil dosyalarını yeniden üretmek için:
+To rebuild style files:
 
 ```bash
 npm run tailwind
 ```
 
-Bu komut, `views/styles/tailwindcss.css` dosyasını derleyip `views/styles/static/styles.css` çıktısını üretir.
+This command compiles `views/styles/tailwindcss.css` and produces `views/styles/static/styles.css`.
 
-## Önemli Yapılandırma Alanları
+## Important Configuration Fields
 
 ### `web`
 
-- `title`: Site başlığı
-- `url`: Panelin tam adresi
-- `description`: Meta açıklaması
-- `keywords`: SEO anahtar kelimeleri
-- `port`: Express uygulamasının çalışacağı port
+- `title`: Site title
+- `url`: Full panel URL
+- `description`: Meta description
+- `keywords`: SEO keywords
+- `port`: Port used by the Express application
 
 ### `bot`
 
-- `id`: Discord uygulama kimliği
-- `token`: Bot tokenı
-- `owner`: Kara liste komutlarını kullanabilecek kullanıcı kimlikleri
+- `id`: Discord application ID
+- `token`: Bot token
+- `owner`: User IDs that can run blacklist commands
 - `secret`: OAuth2 client secret
-- `callback`: Discord giriş dönüş adresi
-- `scopes`: OAuth2 izinleri
-- `invite`: Bot davet bağlantısı
-- `server`: Başvuruların yönetileceği Discord sunucu kimliği
-- `channel`: Başvuruların iletileceği kanal kimliği
-- `ready`: Bot durumunda gösterilecek ifade
+- `callback`: Discord login callback URL
+- `scopes`: OAuth2 scopes
+- `invite`: Bot invite link
+- `server`: Discord server ID where submissions are managed
+- `channel`: Channel ID where submissions are sent
+- `ready`: Text shown as bot status
 
-## Route Özeti
+## Route Summary
 
-### Web Sayfaları
+### Web Pages
 
-- `/`: En yeni sunucular
-- `/players`: En çok oyunculu sunucular
-- `/votes`: En çok oy alan sunucular
-- `/myservers`: Kullanıcının eklediği sunucular
-- `/request`: Yeni sunucu başvuru formu
-- `/login`: Discord ile giriş
-- `/callback`: Discord OAuth dönüş rotası
-- `/invite`: Bot davet bağlantısı
-- `/exit`: Çıkış
+- `/`: Newest servers
+- `/players`: Servers with the most players
+- `/votes`: Most voted servers
+- `/myservers`: Servers added by the current user
+- `/request`: New server submission form
+- `/login`: Sign in with Discord
+- `/callback`: Discord OAuth callback route
+- `/invite`: Bot invite link
+- `/exit`: Logout
 
-### API ve Yardımcı Rotalar
+### API and Utility Routes
 
-- `/api`: Aktif sunucuları JSON olarak döner
-- `/api/logo?width=128&height=128`: Logoyu istenen boyuta göre döner
-- `/sitemap.xml`: Sitemap çıktısı
-- `/robots.txt`: Robots dosyası
-- `/sw.js`: Basit servis çalışanı
+- `/api`: Returns active servers as JSON
+- `/api/logo?width=128&height=128`: Returns logo resized to requested dimensions
+- `/sitemap.xml`: Sitemap output
+- `/robots.txt`: Robots file
+- `/sw.js`: Basic service worker
 
-## Veri Yapısı
+## Data Structure
 
-Projede veriler `csy.db` ile yerel dosyada tutulur. Sunucu kayıtları `server_<discordSunucuId>` formatında saklanır. Tipik bir kayıt şu alanları içerir:
+Project data is stored locally via `csy.db`. Server records are stored in the format `server_<discordServerId>`. A typical record includes fields like:
 
 ```js
 {
   ip: "127.0.0.1",
   port: 22003,
-  long: "Kısa açıklama",
+  long: "Short description",
   server: 123456789012345678,
   status: 0,
   likes: [],
-  owner: "kullanici_id",
+  owner: "user_id",
   date: 1710000000000
 }
 ```
 
-`status` alanı:
+`status` field:
 
-- `0`: Onay bekliyor
-- `1`: Aktif
-- `2`: Kara listede
+- `0`: Waiting for approval
+- `1`: Active
+- `2`: Blacklisted
 
-## Onay ve Yönetim Akışı
+## Approval and Management Flow
 
-Bir kullanıcı başvuru gönderdiğinde bot, belirlenen yönetim kanalına butonlu bir mesaj yollar:
+When a user submits an application, the bot sends a message with buttons to the configured management channel:
 
-- `Kabul`: Sunucuyu aktif eder
-- `Red`: Kaydı siler
+- `Accept`: Activates the server
+- `Reject`: Deletes the record
 
-Ayrıca bot sahipleri aşağıdaki mesaj komutlarını kullanabilir:
+Bot owners can also use these message commands:
 
-- `!addblacklist <sunucuId>`
-- `!removeblacklist <sunucuId>`
+- `!addblacklist <serverId>`
+- `!removeblacklist <serverId>`
 - `!blacklist`
 
-## Dikkat Edilmesi Gerekenler
+## Notes and Caveats
 
-- `callback` adresi ile Discord Developer Portal içindeki yönlendirme adresi birebir aynı olmalıdır.
-- `web.url` alanı, panelin gerçek erişim adresi ile uyumlu olmalıdır.
-- Botun, başvuru yapılacak Discord sunucularına eklenebilmesi gerekir.
-- Başvuru doğrulaması, MTA:SA API önbelleğine göre yapılır. Sunucu API tarafında görünmüyorsa başvuru başarısız olabilir.
-- `databases/` klasörü yazılabilir olmalıdır.
+- The `callback` URL must exactly match the redirect URL configured in the Discord Developer Portal.
+- `web.url` should match the real public address of the panel.
+- The bot must be able to join Discord servers where users will submit applications.
+- Submission validation depends on the MTA:SA API cache. If a server is not visible in the API, the submission may fail.
+- The `databases/` directory must be writable.
 
-## Geliştirme Notları
+## Development Notes
 
-- Uygulama açıldığında hem Discord botu hem web paneli birlikte başlar.
-- `global.autoreload()` düzenli olarak MTA:SA API verisini çeker.
-- Oylar `voteRefresh` süresi dolunca sıfırlanır.
-- Hata ve 404 sayfaları özel EJS şablonları ile sunulur.
+- On startup, both the Discord bot and web panel run together.
+- `global.autoreload()` regularly pulls MTA:SA API data.
+- Votes are reset when `voteRefresh` duration expires.
+- Error and 404 pages are served with custom EJS templates.
 
-## Lisans
+## License
 
-Bu proje `Apache-2.0` lisansı ile sunulmaktadır.
+This project is distributed under the `Apache-2.0` license.
